@@ -1,0 +1,18 @@
+node_modules 
+.env 
+
+# Python
+venv/
+.venv/
+__pycache__/
+
+# Environment
+.env
+
+# User uploads
+uploads/
+
+# Static files (jika auto-generated)
+static/
+
+.vercel

@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Follower Comparator</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            color: #ecf0f1;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .header-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        body.dark-mode header {
+            background: #34495e;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+        h1 a {
+            text-decoration: none; /* Hilangkan garis bawah default pada link */
+            color: inherit; /* Warna link mengikuti warna ikon (tidak berubah menjadi biru) */
+        }
+        h1 a:hover {
+            opacity: 0.8; /* Efek hover: sedikit transparan saat dihover */
+        }
+        h1 a:hover i {
+            color: #f06292; /* Warna ikon saat dihover */
+        }
+        body.dark-mode h1 {
+            color: #ecf0f1;
+        }
+        h1 i {
+            color: #e91e63;
+            margin-right: 10px;
+        }
+        p {
+            margin: 5px 0 0;
+            color: #7f8c8d;
+        }
+        body.dark-mode p {
+            color: #bdc3c7;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #e91e63;
+            transition: transform 0.3s;
+        }
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
+        body.dark-mode .theme-toggle {
+            color: #f1c40f;
+        }
+        .upload-form, .result-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            box-sizing: border-box;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        body.dark-mode .upload-form,
+        body.dark-mode .result-section {
+            background: #34495e;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        /* Aturan default untuk result-section (desktop) */
+        .result-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .upload-form label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+            color: #34495e;
+        }
+        body.dark-mode .upload-form label {
+            color: #ecf0f1;
+        }
+        .upload-form input[type="file"] {
+            background: linear-gradient(45deg, #1b1388, #ff7675); /* Gradien lebih lembut di light mode */
+            transition: background 0.3s, border 0.3s;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #ecf0f1;
+        }
+        body.dark-mode .upload-form input[type="file"] {
+            border: 1px solid #7f8c8d;
+            background: linear-gradient(45deg, #1b1388, #b2bec3); /* Gradien lebih terang di dark mode */
+            color: #ecf0f1;
+        }
+        .upload-form input[type="file"]:hover {
+            background: linear-gradient(45deg, #8b0860, #ff7675);
+            border: 1px solid #e91e63;
+        }
+        body.dark-mode .upload-form input[type="file"]:hover {
+            background: linear-gradient(45deg, #8b0860, #b2bec3);
+            border: 1px solid #f1c40f;
+        }
+        .upload-form input[type="submit"] {
+            background: linear-gradient(45deg, #e91e63, #f06292);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .upload-form input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+        }
+        .lists-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+        }
+        .list-box {
+            flex: 1;
+            box-sizing: border-box;
+            min-height: 300px;
+            width: calc(50% - 10px); /* 50% lebar dikurangi gap */
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideIn 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        body.dark-mode .list-box {
+            background: #2c3e50;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .list-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .list-header {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Shadow di light mode */
+            padding: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            flex-direction: column; /* Judul di atas, filter di bawah */
+            align-items: flex-start; /* Rata kiri */
+            min-height: 50px;
+        }
+        body.dark-mode .list-header {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Shadow lebih gelap di dark mode */
+            color: #dfe6e9; /* Warna teks sedikit lebih hangat */
+        }
+        .list-header .title {
+            max-width: 100%; /* Ambil seluruh lebar */
+            margin-bottom: 10px; /* Jarak antara judul dan filter */
+            font-size: 1.5rem; /* Ukuran font judul */
+            text-align: center;
+        }
+        .list-header .filter-container {
+            width: 100%; /* Ambil seluruh lebar */
+            display: flex;
+            flex-direction: row; /* Filter horizontal di desktop */
+            gap: 10px; /* Jarak antar elemen filter */
+            align-items: center;
+        }
+        .list-header input, .list-header select {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            color: #333; /* Warna teks lebih gelap untuk kontras dengan background putih */
+            background: rgba(255, 255, 255, 0.9); /* Background sedikit lebih buram agar tetap terlihat */
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            flex: 1; /* Membagi ruang secara merata */
+        }
+        /* Tambah border dan efek hover */
+        .list-header select {
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Border tipis untuk memperjelas */
+            transition: background 0.3s, border 0.3s;
+            padding: 8px 12px; /* Padding lebih besar untuk kenyamanan */
+        }
+        /* Pastikan opsi di dalam dropdown juga terlihat */
+        .list-header select option {
+            color: #333; /* Warna teks opsi */
+            background: #fff; /* Background opsi */
+        }
+        .list-header input::placeholder {
+            color: #333;
+            size: 10px;
+        }
+        body.dark-mode .list-header input::placeholder {
+            color: #ecf0f1; /* Warna placeholder putih di dark mode */
+        }
+        /* Saat hover atau focus */
+        .list-header input:hover,
+        .list-header select:hover,
+        .list-header input:focus,
+        .list-header select:focus {
+            color: #fff; /* Teks menjadi putih saat hover/focus */
+            background: rgba(255, 255, 255, 0.3); /* Background sedikit lebih gelap untuk kontras */
+            border: 2px solid #e91e63; /* Border pink di light mode */
+        }
+        /* Saat hover atau focus di dark mode */
+        body.dark-mode .list-header input:hover,
+        body.dark-mode .list-header select:hover,
+        body.dark-mode .list-header input:focus,
+        body.dark-mode .list-header select:focus {
+            color: #fff; /* Teks tetap putih */
+            background: rgba(255, 255, 255, 0.4); /* Background sedikit lebih terang */
+            border: 2px solid #f1c40f; /* Border kuning di dark mode */
+        }
+        /* Warna placeholder saat hover/focus */
+        .list-header input:hover::placeholder,
+        .list-header input:focus::placeholder {
+            color: #fff; /* Placeholder menjadi putih saat hover/focus */
+        }
+        body.dark-mode .list-header input:hover::placeholder,
+        body.dark-mode .list-header input:focus::placeholder {
+            color: #fff; /* Placeholder tetap putih di dark mode */
+        }
+        .list-header input:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .list-header select:hover {
+            background: rgba(255, 255, 255, 0.5); /* Efek hover lebih terang */
+            border: 1px solid #e91e63; /* Border pink saat hover di light mode */
+        }
+        .list-header input:focus, .list-header select:focus {
+            border: 2px solid #e91e63;
+            background: rgba(255, 255, 255, 0.4);
+        }
+        body.dark-mode .list-header select option {
+            color: #ecf0f1;
+            background: #2c3e50;
+        }
+        /* Warna awal di dark mode */
+        body.dark-mode .list-header input,
+        body.dark-mode .list-header select {
+            color: #ecf0f1; /* Warna teks awal putih di dark mode */
+            background: rgba(255, 255, 255, 0.2);
+        }
+        body.dark-mode .list-header input:focus,
+        body.dark-mode .list-header select:focus {
+            border: 2px solid #f1c40f;
+        }
+        body.dark-mode .list-header select:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid #f1c40f; /* Border kuning saat hover di dark mode */
+        }
+        /* Warna teks di dark mode */
+        body.dark-mode .list-header select {
+            color: #ecf0f1; /* Warna teks lebih terang di dark mode */
+            background: rgba(255, 255, 255, 0.2); /* Background lebih gelap di dark mode */
+        }
+        .list-footer {
+            background: #ecf0f1;
+            padding: 10px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-top: -1px;
+        }
+        body.dark-mode .list-footer {
+            background: #3e5a74;
+            color: #bdc3c7;
+        }
+        .list-content {
+            border-top: none;
+            padding: 15px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+            height: 220px; /* Pastikan tinggi cukup */
+            overflow-y: auto; /* Pastikan scroll muncul jika konten panjang */
+            box-sizing: border-box;
+            display: block; /* Pastikan elemen ini muncul */
+        }
+        body.dark-mode .list-content {
+            background: rgba(52, 73, 94, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .list-content ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-content li {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+        .list-content li:hover {
+            background: rgba(52, 152, 219, 0.2);
+            border-radius: 5px;
+            padding: 2px 5px;
+        }
+        body.dark-mode .list-content li:hover {
+            background: rgba(26, 188, 156, 0.2);
+        }
+        .list-content li i {
+            margin-right: 5px;
+            color: #e91e63;
+        }
+        body.dark-mode .list-content li i {
+            color: #f1c40f;
+        }
+        .list-content a {
+            position: relative;
+            padding: 2px 5px;
+            transition: background 0.3s;
+        }
+        .list-content a:hover {
+            background: rgba(52, 152, 219, 0.1);
+            text-decoration: none;
+        }
+        body.dark-mode .list-content a:hover {
+            background: rgba(26, 188, 156, 0.1);
+        }
+        .list-content a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: #3498db;
+            transition: width 0.3s;
+        }
+        body.dark-mode .list-content a::after {
+            background: #1abc9c;
+        }
+        .list-content a:hover::after {
+            width: 100%;
+        }        
+        body.dark-mode .list-content a {
+            color: #ffffff;
+        }
+        .error {
+            color: #e74c3c;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        body.dark-mode .error {
+            color: #ff6b6b;
+        }
+        .download-btn {
+            background: linear-gradient(45deg, #F77737, #833AB4);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);            
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        body.dark-mode footer {
+            background: rgba(52, 73, 94, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        /* Loading Spinner */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #e91e63;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        body.dark-mode .spinner {
+            border: 5px solid #7f8c8d;
+            border-top: 5px solid #f1c40f;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        header, .upload-form, .result-section .list-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        body.dark-mode header,
+        body.dark-mode .upload-form,
+        body.dark-mode .result-section .list-box {
+            background: rgba(52, 73, 94, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        body {
+            cursor: url('path/to/custom-cursor.png'), auto;
+        }
+        .how-to-use {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px; /* Tambah padding agar lebih lega */
+            border-radius: 10px;
+            max-width: 600px; /* Tambah lebar maksimum agar lebih luas */
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Tambah shadow untuk efek lebih menonjol */
+            animation: fadeInModal 0.3s ease-in-out; /* Tambah animasi saat modal muncul */
+        }
+
+        body.dark-mode .modal-content {
+            background: #34495e;
+            color: #ecf0f1;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Animasi untuk modal */
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Judul modal */
+        .modal-content h2 {
+            font-size: 1.8rem; /* Perbesar ukuran judul */
+            margin: 0 0 20px 0; /* Tambah margin bawah */
+            color: #2c3e50; /* Warna lebih gelap di light mode */
+            border-bottom: 2px solid #e91e63; /* Tambah garis bawah untuk efek */
+            padding-bottom: 10px; /* Tambah padding bawah */
+        }
+
+        body.dark-mode .modal-content h2 {
+            color: #ecf0f1;
+            border-bottom: 2px solid #f1c40f; /* Garis bawah kuning di dark mode */
+        }
+
+        /* Teks dalam modal */
+        .modal-content p {
+            font-size: 1rem; /* Perbesar ukuran teks */
+            line-height: 1.8; /* Tambah spasi antar baris */
+            margin: 15px 0; /* Tambah spasi antar poin */
+            color: #34495e;
+        }
+
+        body.dark-mode .modal-content p {
+            color: #bdc3c7;
+        }
+
+        /* Tombol close */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem; /* Perbesar ikon close */
+            cursor: pointer;
+            color: #e91e63;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        body.dark-mode .close {
+            color: #f1c40f;
+        }
+
+        .close:hover {
+            color: #c0392b; /* Warna merah saat hover di light mode */
+            transform: rotate(90deg); /* Efek rotasi saat hover */
+        }
+
+        body.dark-mode .close:hover {
+            color: #e74c3c; /* Warna merah terang di dark mode */
+        }
+
+        /* Efek hover pada modal */
+        .modal-content:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Efek shadow lebih besar saat hover */
+        }
+
+        body.dark-mode .modal-content:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        .modal-content ol {
+            padding-left: 25px; /* Beri spasi untuk nomor */
+            margin: 0;
+        }
+
+        .modal-content ol li {
+            margin: 15px 0; /* Spasi antar poin */
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+        body.dark-mode .modal-content ol li {
+            color: #bdc3c7;
+        }
+        .drag-drop-area {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+        body.dark-mode .drag-drop-area {
+            border: 2px dashed #7f8c8d;
+        }
+        .drag-drop-area.dragover {
+            border: 2px dashed #e91e63;
+        }
+        body.dark-mode .drag-drop-area.dragover {
+            border: 2px dashed #f1c40f;
+        }
+        .reset-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #e91e63, #f06292);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: none;
+            transition: opacity 0.3s;
+        }
+        .back-to-top.show {
+            display: block;
+        }
+        body.dark-mode .back-to-top {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+        }
+        .back-to-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+        }
+        body.dark-mode .back-to-top:hover {
+            box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3);
+        }
+
+        .back-to-bottom {
+            position: fixed;
+            bottom: 70px; /* Diletakkan di atas tombol Back to Top */
+            right: 20px;
+            background: linear-gradient(45deg, #e91e63, #f06292);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: none;
+            transition: opacity 0.3s;
+        }
+
+        .back-to-bottom.show {
+            display: block;
+        }
+
+        body.dark-mode .back-to-bottom {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+        }
+        .back-to-bottom:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+        }
+        body.dark-mode .back-to-bottom:hover {
+            box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3);
+        }
+        /* Aturan untuk desktop (lebar layar > 768px) */
+        @media (min-width: 769px) {
+            .result-section {
+                display: flex;
+                flex-direction: row; /* Pastikan horizontal */
+                flex-wrap: wrap; /* Izinkan wrapping jika terlalu banyak tabel */
+                gap: 20px;
+                justify-content: space-between;
+                align-items: stretch;
+            }
+
+            .list-box {
+                flex: 1; /* Bagi lebar secara merata */
+                width: calc(50% - 10px); /* 50% lebar dikurangi gap */
+                min-height: 300px;
+                margin: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            /* Sesuaikan container utama */
+            .container {
+                padding: 10px; /* Kurangi padding di mobile */
+                padding-top: 30px; /* Beri ruang di atas hanya di mobile */
+            }
+
+            header {
+                padding-top: 40px; /* Tambah ruang kosong di atas tulisan */
+                margin-bottom: 20px;
+                height: 280px;
+            }
+
+            header p {
+                margin-top: 30px;
+            }
+
+            .how-to-use {
+                top: 10px; /* Lebih ke atas lagi di mobile */
+                left: 7px;
+                font-size: 1rem;
+                padding: 5px 10px;
+            }
+
+            .back-to-top {
+                bottom: 115px; /* Beri ruang lebih di atas footer */
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .back-to-bottom {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .footer {
+                padding: 8px; /* Kurangi tinggi footer di mobile */
+                font-size: 0.8rem;
+            }
+            
+            .theme-toggle {
+                top: 14px; /* Posisi lebih ke atas di mobile */
+                right: 10px;
+                font-size: 1rem;
+            }
+
+            .header h1 {
+                font-size: 0.9rem; /* Kurangi ukuran font di mobile */
+            }
+            
+            h1 i {
+                color: #e91e63;
+                margin-right: 10px;
+                margin-bottom: 90px;
+                font-size: 1em; /* Pastikan ukuran ikon sesuai dengan teks */
+            }
+            h1{
+               font-size: 30px; 
+               display: flex;
+               align-items: center; /* Sejajarkan ikon dan teks secara vertikal */
+               justify-content: center; /* Pastikan konten di dalam h1 juga di tengah */
+               margin-right: 20px;
+               margin-top: 20px;
+               width: auto;
+            }
+
+            /* Sesuaikan result-section */
+            .result-section {
+                display: flex; /* Pastikan tetap flex */
+                flex-direction: column; /* Susun vertikal */
+                flex-wrap: nowrap; /* Pastikan tidak ada wrapping */
+                gap: 20px; /* Jarak antar tabel */
+                justify-content: flex-start; /* Pastikan tidak ada space-between */
+                align-items: stretch; /* Pastikan lebar penuh */
+            }
+
+            .lists-container {
+                display: flex;
+                flex-direction: column; /* Susun vertikal di mobile */
+                flex-wrap: nowrap;
+                gap: 20px;
+                width: 100%;
+            }
+                    /* Sesuaikan list-box */
+            .list-box {
+                flex: none; /* Hapus flex: 1 */
+                width: 100%; /* Ambil seluruh lebar */
+                min-height: 250px; /* Sesuaikan tinggi */
+                margin: 0; /* Pastikan tidak ada margin yang mengganggu */
+            }
+
+            /* Sesuaikan list-header */
+            .list-header {
+                padding: 10px; /* Kurangi padding di mobile */
+            }
+
+            .list-header .title {
+                font-size: 1.2rem; /* Kurangi ukuran font judul */
+                margin-bottom: 8px;
+            }
+
+            .list-header .filter-container {
+                flex-direction: column; /* Susun filter secara vertikal */
+                gap: 8px; /* Kurangi jarak antar elemen filter */
+            }
+
+            .list-header input,
+            .list-header select {
+                width: 100%; /* Ambil seluruh lebar */
+                font-size: 0.9rem; /* Sesuaikan ukuran font */
+                padding: 6px; /* Kurangi padding agar lebih ringkas */
+            }
+
+            /* Sesuaikan list-content */
+            .list-content {
+                height: 150px; /* Kurangi tinggi agar proporsional di mobile */
+                padding: 10px;
+            }
+
+            .list-content li {
+                font-size: 0.9rem; /* Kurangi ukuran font */
+                margin: 6px 0;
+            }
+
+            /* Sesuaikan list-footer */
+            .list-footer {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+
+            /* Sesuaikan tombol Download as CSV */
+            .list-box form {
+                margin-top: 8px;
+            }
+
+            .download-btn {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Partikel -->
+    <div id="particles-js"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <!-- <img src="path/to/logo.png" alt="Logo" class="header-logo"> -->
+            <h1><a href="https://www.instagram.com/riskyycn_/" target="_blank" title="@riskyycn_">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                Instagram Follower Comparator
+            </h1>
+            <p>Compare your Instagram followers and following to find out who doesn't follow you back.</p>
+            <button class="how-to-use" onclick="openModal()">How to Use</button>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <!-- Modal -->
+        <div id="howToUseModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>How to Use</h2>
+                <ol>
+                    <li>Download your Instagram data from ☰ or Settings and activity &gt; Your activity &gt; Download your information &gt; Download or transfer information &gt; Some of your information &gt; Followers and following &gt; Create files &gt; Download to device.</li>
+                    <li>Extract the ZIP file and find followers.html and following.html (or JSON files).</li>
+                    <li>Upload the files in the form below and click Compare!</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="upload-form">
+            <form method="POST" enctype="multipart/form-data" id="compareForm">
+                <div class="drag-drop-area" id="dragDropFollowers">
+                    <label for="">Followers File (followers.json or followers.html):</label><br>
+                    <input type="file" name="followers_file" id="followers_file" accept=".json,.html" required><br>
+                    <p>Drag and drop your file here or click to upload</p>
+                </div>
+                <div class="drag-drop-area" id="dragDropFollowing">
+                    <label for="">Following File (following.json or following.html):</label><br>
+                    <input type="file" name="following_file" id="following_file" accept=".json,.html" required><br>
+                    <p>Drag and drop your file here or click to upload</p>
+                </div>
+                <input type="submit" value="Compare">
+            </form>
+        </div>
+
+        {% if error_message %}
+        <div class="error">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
+        {% if followers_list or following_list or not_following_back or you_not_following_back %}
+        <button class="reset-btn" onclick="window.location.href='/'">Reset</button>
+        {% endif %}
+
+        <!-- Section for Followers and Following side by side -->
+        {% if followers_list or following_list %}
+        <div class="result-section">
+            <div class="lists-container">
+                <!-- Followers List -->
+                {% if followers_list %}
+                <div class="list-box">
+                    <div class="list-header">
+                        <span class="title">Followers List</span>
+                        <div class="filter-container">
+                            <input type="text" id="filterFollowers" onkeyup="filterList('followersList', 'filterFollowers', 'lengthFollowers', 'rangeFollowers')" placeholder="Filter...">
+                            <select id="lengthFollowers" onchange="filterList('followersList', 'filterFollowers', 'lengthFollowers', 'rangeFollowers')">
+                                <option value="all">All Lengths</option>
+                                <option value="short">< 5 chars</option>
+                                <option value="medium">5-10 chars</option>
+                                <option value="long">> 10 chars</option>
+                            </select>
+                            <select id="rangeFollowers" onchange="filterList('followersList', 'filterFollowers', 'lengthFollowers', 'rangeFollowers')">
+                                <option value="all">All Ranges</option>
+                                <option value="a-e">A-E</option>
+                                <option value="f-j">F-J</option>
+                                <option value="k-o">K-O</option>
+                                <option value="p-t">P-T</option>
+                                <option value="u-z">U-Z</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-content">
+                        <ul id="followersList">
+                            {% for user in followers_list %}
+                            <li>{{ user }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="list-footer">Total: {{ followers_list | length }} items</div>
+                </div>
+                {% endif %}
+
+                <!-- Following List -->
+                {% if following_list %}
+                <div class="list-box">
+                    <div class="list-header">
+                        <span class="title">Following List</span>
+                        <div class="filter-container">
+                            <input type="text" id="filterFollowing" onkeyup="filterList('followingList', 'filterFollowing', 'lengthFollowing', 'rangeFollowing')" placeholder="Filter...">
+                            <select id="lengthFollowing" onchange="filterList('followingList', 'filterFollowing', 'lengthFollowing', 'rangeFollowing')">
+                                <option value="all">All Lengths</option>
+                                <option value="short">< 5 chars</option>
+                                <option value="medium">5-10 chars</option>
+                                <option value="long">> 10 chars</option>
+                            </select>
+                            <select id="rangeFollowing" onchange="filterList('followingList', 'filterFollowing', 'lengthFollowing', 'rangeFollowing')">
+                                <option value="all">All Ranges</option>
+                                <option value="a-e">A-E</option>
+                                <option value="f-j">F-J</option>
+                                <option value="k-o">K-O</option>
+                                <option value="p-t">P-T</option>
+                                <option value="u-z">U-Z</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-content">
+                        <ul id="followingList">
+                            {% for user in following_list %}
+                            <li>{{ user }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="list-footer">Total: {{ following_list | length }} items</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Section for comparison results -->
+        {% if not_following_back or you_not_following_back %}
+        <div class="result-section">
+            <div class="lists-container">
+                <!-- Accounts that don't follow you back -->
+                {% if not_following_back %}
+                <div class="list-box">
+                    <div class="list-header">
+                        <span class="title">Accounts Not Following You Back</span>
+                        <div class="filter-container">
+                            <input type="text" id="filterNotFollowingBack" onkeyup="filterList('notFollowingBackList', 'filterNotFollowingBack', 'lengthNotFollowingBack', 'rangeNotFollowingBack')" placeholder="Filter...">
+                            <select id="lengthNotFollowingBack" onchange="filterList('notFollowingBackList', 'filterNotFollowingBack', 'lengthNotFollowingBack', 'rangeNotFollowingBack')">
+                                <option value="all">All Lengths</option>
+                                <option value="short">< 5 chars</option>
+                                <option value="medium">5-10 chars</option>
+                                <option value="long">> 10 chars</option>
+                            </select>
+                            <select id="rangeNotFollowingBack" onchange="filterList('notFollowingBackList', 'filterNotFollowingBack', 'lengthNotFollowingBack', 'rangeNotFollowingBack')">
+                                <option value="all">All Ranges</option>
+                                <option value="a-e">A-E</option>
+                                <option value="f-j">F-J</option>
+                                <option value="k-o">K-O</option>
+                                <option value="p-t">P-T</option>
+                                <option value="u-z">U-Z</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-content">
+                        <ul id="notFollowingBackList">
+                            {% for user in not_following_back %}
+                            <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/{{ user }}/" target="_blank">{{ user }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="list-footer">Total: {{ not_following_back | length }} items</div>
+                    <form action="/download_csv/not_following_back" method="POST">
+                        {% for user in not_following_back %}
+                        <input type="hidden" name="usernames" value="{{ user }}">
+                        {% endfor %}
+                        <button type="submit" class="download-btn"><i class="fas fa-download"></i> Download as CSV</button>
+                    </form>
+                </div>
+                {% endif %}
+
+                {% if you_not_following_back %}
+                <div class="list-box">
+                    <div class="list-header">
+                        <span class="title">Accounts You Don't Follow Back</span>
+                        <div class="filter-container">
+                            <input type="text" id="filterYouNotFollowingBack" onkeyup="filterList('youNotFollowingBackList', 'filterYouNotFollowingBack', 'lengthYouNotFollowingBack', 'rangeYouNotFollowingBack')" placeholder="Filter...">
+                            <select id="lengthYouNotFollowingBack" onchange="filterList('youNotFollowingBackList', 'filterYouNotFollowingBack', 'lengthYouNotFollowingBack', 'rangeYouNotFollowingBack')">
+                                <option value="all">All Lengths</option>
+                                <option value="short">< 5 chars</option>
+                                <option value="medium">5-10 chars</option>
+                                <option value="long">> 10 chars</option>
+                            </select>
+                            <select id="rangeYouNotFollowingBack" onchange="filterList('youNotFollowingBackList', 'filterYouNotFollowingBack', 'lengthYouNotFollowingBack', 'rangeYouNotFollowingBack')">
+                                <option value="all">All Ranges</option>
+                                <option value="a-e">A-E</option>
+                                <option value="f-j">F-J</option>
+                                <option value="k-o">K-O</option>
+                                <option value="p-t">P-T</option>
+                                <option value="u-z">U-Z</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-content">
+                        <ul id="youNotFollowingBackList">
+                            {% for user in you_not_following_back %}
+                            <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/{{ user }}/" target="_blank">{{ user }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="list-footer">Total: {{ you_not_following_back | length }} items</div>
+                    <form action="/download_csv/you_not_following_back" method="POST">
+                        {% for user in you_not_following_back %}
+                        <input type="hidden" name="usernames" value="{{ user }}">
+                        {% endfor %}
+                        <button type="submit" class="download-btn"><i class="fas fa-download"></i> Download as CSV</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button class="back-to-bottom" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+        
+        <footer>
+            <p>© 2025 Instagram Follower Comparator. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        function initializeParticles() {
+            const isLightMode = document.body.classList.contains('light-mode');
+            particlesJS("particles-js", {
+                "particles": {
+                    "color": {
+                        "value": "#ff7675" // Pink lebih lembut di light mode
+                    },
+                    "opacity": {
+                        "value": 0.3 // Kurangi opacity
+                    },
+                    "line_linked": {
+                        "color": "#ff7675",
+                        "opacity": 0.2
+                    }
+                }
+            });
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#74b9ff" // Biru muda di dark mode
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#74b9ff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "repulse"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "repulse": {
+                            "distance": 100,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme in localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+
+        // Initialize particles with the correct theme
+        initializeParticles();
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+            // Reinitialize particles to update colors
+            document.getElementById('particles-js').innerHTML = '';
+            initializeParticles();
+        });
+
+        // Function to filter list
+        function filterList(listId, inputId, lengthId, rangeId) {
+            const input = document.getElementById(inputId);
+            const filter = input.value.toLowerCase();
+            const lengthFilter = document.getElementById(lengthId).value;
+            const rangeFilter = document.getElementById(rangeId).value;
+            const ul = document.getElementById(listId);
+            const li = ul.getElementsByTagName("li");
+
+            for (let i = 0; i < li.length; i++) {
+                // Ambil teks username dengan benar
+                let text;
+                const link = li[i].querySelector("a"); // Cari elemen <a> di dalam <li>
+                if (link) {
+                    // Jika ada link (seperti di "Accounts Not Following You Back")
+                    text = link.textContent.toLowerCase();
+                } else {
+                    // Jika tidak ada link (seperti di "Followers List")
+                    text = li[i].textContent.toLowerCase();
+                }
+
+                const usernameLength = text.length;
+                const firstChar = text.charAt(0).toLowerCase();
+
+                // Filter by username length
+                let lengthMatch = true;
+                if (lengthFilter === "short") {
+                    lengthMatch = usernameLength < 5;
+                } else if (lengthFilter === "medium") {
+                    lengthMatch = usernameLength >= 5 && usernameLength <= 10;
+                } else if (lengthFilter === "long") {
+                    lengthMatch = usernameLength > 10;
+                }
+
+                // Filter by starting letter range
+                let rangeMatch = true;
+                if (rangeFilter === "a-e") {
+                    rangeMatch = firstChar >= "a" && firstChar <= "e";
+                } else if (rangeFilter === "f-j") {
+                    rangeMatch = firstChar >= "f" && firstChar <= "j";
+                } else if (rangeFilter === "k-o") {
+                    rangeMatch = firstChar >= "k" && firstChar <= "o";
+                } else if (rangeFilter === "p-t") {
+                    rangeMatch = firstChar >= "p" && firstChar <= "t";
+                } else if (rangeFilter === "u-z") {
+                    rangeMatch = firstChar >= "u" && firstChar <= "z";
+                }
+
+                // Apply filters (keyword, length, and range)
+                if ((filter === "" || text.includes(filter)) && lengthMatch && rangeMatch) {
+                    li[i].style.display = "list-item";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        const dragDropAreas = document.querySelectorAll('.drag-drop-area');
+        dragDropAreas.forEach(area => {
+            const input = area.querySelector('input[type="file"]');
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.classList.add('dragover');
+            });
+            area.addEventListener('dragleave', () => {
+                area.classList.remove('dragover');
+            });
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    input.files = files;
+                }
+            });
+        });
+
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                const label = input.parentElement.querySelector('label');
+                if (input.files.length > 0) {
+                    label.style.color = '#2ecc71'; // Hijau saat file dipilih
+                } else {
+                    label.style.color = '#34495e'; // Kembali ke warna awal
+                }
+            });
+        });
+
+        function openModal() {
+            document.getElementById('howToUseModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('howToUseModal').style.display = 'none';
+        }
+
+        // Call filterList with empty filters on page load
+        window.onload = function() {
+            filterList('followersList', 'filterFollowers', 'lengthFollowers', 'rangeFollowers');
+            filterList('followingList', 'filterFollowing', 'lengthFollowing', 'rangeFollowing');
+            filterList('notFollowingBackList', 'filterNotFollowingBack', 'lengthNotFollowingBack', 'rangeNotFollowingBack');
+            filterList('youNotFollowingBackList', 'filterYouNotFollowingBack', 'lengthYouNotFollowingBack', 'rangeYouNotFollowingBack');
+
+            // Show loading spinner when form is submitted
+            const form = document.getElementById('compareForm');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            form.addEventListener('submit', function() {
+                // Show loading spinner when form is submitted
+                const form = document.getElementById('compareForm');
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                form.addEventListener('submit', function() {
+                    loadingOverlay.style.display = 'flex';
+
+                    // Periksa apakah tombol Back to Bottom perlu ditampilkan setelah konten dimuat
+                    setTimeout(() => {
+                        const backToBottom = document.querySelector('.back-to-bottom');
+                        const windowHeight = window.innerHeight;
+                        const documentHeight = document.body.scrollHeight;
+                        if (documentHeight > windowHeight) {
+                            backToBottom.classList.add('show');
+                        }
+                    }, 100); // Delay kecil untuk memastikan konten sudah dimuat
+                });
+            });
+        };
+
+        window.addEventListener('scroll', () => {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        // Fungsi untuk memperbarui visibilitas tombol Back to Top dan Back to Bottom
+        function updateScrollButtons() {
+            const backToTop = document.querySelector('.back-to-top');
+            const backToBottom = document.querySelector('.back-to-bottom');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.body.scrollHeight;
+
+            // Debugging: Log nilai untuk memeriksa
+            console.log('Scroll Position:', scrollPosition);
+            console.log('Window Height:', windowHeight);
+            console.log('Document Height:', documentHeight);
+
+            // Tampilkan tombol Back to Top jika scroll lebih dari 300px dari atas
+            if (scrollPosition > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+
+            // Tampilkan tombol Back to Bottom jika ada konten yang cukup panjang dan belum di bagian paling bawah
+            if (documentHeight > windowHeight + 200 && scrollPosition + windowHeight < documentHeight - 200) {
+                backToBottom.classList.add('show');
+            } else {
+                backToBottom.classList.remove('show');
+            }
+        }
+
+        // Event listener untuk scroll
+        window.addEventListener('scroll', updateScrollButtons);
+
+        // Event listener untuk resize (jika ukuran layar berubah)
+        window.addEventListener('resize', updateScrollButtons);
+
+        // Show loading spinner when form is submitted and check buttons after content loads
+        const form = document.getElementById('compareForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        form.addEventListener('submit', function() {
+            loadingOverlay.style.display = 'flex';
+
+            // Periksa tombol setelah konten dimuat
+            setTimeout(() => {
+                updateScrollButtons();
+                loadingOverlay.style.display = 'none'; // Sembunyikan loading setelah konten dimuat
+            }, 500); // Delay lebih lama untuk memastikan konten dimuat
+        });
+
+        // Periksa tombol saat halaman pertama kali dimuat
+        window.addEventListener('load', updateScrollButtons);
+
+        // Hide loading spinner when page is fully loaded (including after form submission)
+        window.addEventListener('load', function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
