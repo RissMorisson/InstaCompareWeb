@@ -9,7 +9,7 @@ Perfect for anyone who’s active on Instagram! 😉
 [![Live Demo](https://img.shields.io/badge/Live_Demo-00C7B7?logo=netlify)](https://instagram-follower-comparator.vercel.app/)
 [![GitHub Stars](https://img.shields.io/github/stars/RissMorisson/InstaCompareWeb?style=social)](https://github.com/RissMorisson/InstaCompareWeb/stargazers)
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
 
 ## ✨ Key Features
 
@@ -19,7 +19,7 @@ Perfect for anyone who’s active on Instagram! 😉
 - 💾 **Export to CSV:** Save your results as a CSV file.
 - 📱 **Responsive Design:** Works seamlessly on both desktop and mobile!
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
 
 ## 📸 App Screenshots
 
@@ -29,14 +29,14 @@ Perfect for anyone who’s active on Instagram! 😉
 | 📘 **Usage Guide** | Step-by-step guide to download & upload Instagram data. |
 | 📋 **Comparison Results** | View unfollowers and non-followed users with CSV export feature. |
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
 
 ## 🌐 Live Demo
 
 🚀 Try it out live here:  
 👉 [**InstaCompareWeb Live Demo**](https://instagram-follower-comparator.vercel.app/)
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
 
 ## 🧱 Tech Stack
 
@@ -48,7 +48,7 @@ Perfect for anyone who’s active on Instagram! 😉
 | 📦 Packaging    | requirements.txt                          |
 | 🌍 Hosting      | Vercel (frontend), Railway / Render / Replit (backend Flask) |
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
 
 ## 📖 How to Use
 
@@ -75,7 +75,7 @@ Perfect for anyone who’s active on Instagram! 😉
 - Use filter or sort tools.
 - Download the results as a `.csv` file.
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
 
 ## 📊 Sample Results
 
@@ -109,7 +109,8 @@ After uploading your files, you’ll see results like:
 - @.....  
 - *(Total: 890 items)*
 
----
+<img height="100px" width="100%" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHh4aDhsMHF6dmI4b3pybWR2bWlhdDJ2dXI0bzBjanAxaDdtZzdzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TIj8cbzWYKnE9ul3ab/giphy.gif"  />
+
 ## 🖥️ Run Locally (For Developers)
 
 # 1. Clone the repository
